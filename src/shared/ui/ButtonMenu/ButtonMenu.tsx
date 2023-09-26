@@ -8,7 +8,7 @@ import moneyIcon from '../../assets/images/money.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { OnbPages, setOnboardingPage } from '../../redux/onbPageSlice';
-import { setPause, togglePause, toggleSound } from '../../redux/gameSlice';
+import { resetCount, setPause, togglePause, toggleSound } from '../../redux/gameSlice';
 import { RootState } from '../../redux/store';
 import buttonSound from '../../assets/sound/button.aac';
 
@@ -25,6 +25,7 @@ const ButtonMenu = () => {
             onClick={() => {
               dispatch(setOnboardingPage(OnbPages.FlAPPY));
               dispatch(setPause(false));
+              dispatch(resetCount());
               clickSound.play();
             }}>
             <img alt="Come back" src={arrowIcon} className={cls.arrowIcon} />

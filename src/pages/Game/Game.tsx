@@ -1,6 +1,6 @@
 import cls from './Game.module.scss';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../shared/redux/store';
 import { Penis } from '../../shared/redux/chooseSlice';
 import ClassicPenis from '../../shared/assets/images/penis-classic.svg';
@@ -13,24 +13,36 @@ import LegAnimation from '../../shared/assets/images/leg-anim.json';
 import ButtonMenu from '../../shared/ui/ButtonMenu/ButtonMenu';
 import Obstacles from '../../shared/ui/Obstacles/Obstacles';
 import flappySound from '../../shared/assets/sound/flappy.aac';
+import { useSpring, animated } from '@react-spring/web';
 
-type PenisStyleType = {
-  bottom: string;
-  left: string;
-  transform: string;
-};
-
-let setNewPosition: NodeJS.Timer;
+let interval: ReturnType<typeof setInterval>;
+const soundFlappy = new Audio(flappySound);
 
 const Game = () => {
-  const [leftContainer, setLeftContainer] = useState(0);
   const [firstClick, setFirstClick] = useState(true);
-  const [bottomPenis, setBottomPenis] = useState(282);
-  const [leftPenis, setLeftPenis] = useState(84);
-  const [penisStyle, setPenisStyle] = useState<PenisStyleType>();
-  const soundFlappy = new Audio(flappySound);
+  const [obstacleProps, setObstacleProps] = useState({
+    containerLeft: 0,
+    bottomPenis: 84,
+  });
 
-  const { pause, count } = useSelector((state: RootState) => state.game);
+  //Параметры контейнера
+  const containerLeftRef = useRef(0);
+  const [springPropsContainer, setSpringPropsContainer] = useSpring(() => ({
+    left: `0px`,
+  }));
+
+  //Параметры Пениса
+  const bottomPenisRef = useRef(282);
+  const leftPenisRef = useRef(84);
+
+  const [springPropsPenis, setSpringPropsPenis] = useSpring(() => ({
+    bottom: `282px`,
+    left: `84px`,
+    transform: 'rotate(0deg)',
+    config: { tension: 300, friction: 30 },
+  }));
+
+  const { pause } = useSelector((state: RootState) => state.game);
   const choosePenis = useSelector((state: RootState) => state.choose.choosePenis);
 
   const getPenisImage = (choosePenis: string) => {
@@ -49,59 +61,66 @@ const Game = () => {
     if (!firstClick) {
       if (!pause) {
         soundFlappy.play();
-        setBottomPenis((act) => act + 120);
+        bottomPenisRef.current = bottomPenisRef.current + 120;
+        setSpringPropsPenis({
+          bottom: `${bottomPenisRef.current}px`,
+        });
       }
     }
     if (firstClick) {
       soundFlappy.play();
       setTimeout(() => {
-        setLeftPenis((act) => act + 100);
-        setBottomPenis((act) => act + 400);
+        leftPenisRef.current = leftPenisRef.current + 100;
+        bottomPenisRef.current = bottomPenisRef.current + 400;
+
+        setSpringPropsPenis({
+          bottom: `${bottomPenisRef.current}px`,
+          left: `${leftPenisRef}px`,
+          transform: 'rotate(45deg)',
+        });
       }, 100);
-      setNewPosition = setInterval(() => {
-        setLeftContainer((act) => act - 10);
-        setBottomPenis((act) => act - 15);
-      }, 50);
     }
     setFirstClick(false);
   };
+
   useEffect(() => {
-    if (!firstClick) {
-      setPenisStyle({
-        bottom: `${bottomPenis}px`,
-        left: `${leftPenis}px`,
-        transform: `rotate(45deg)`,
-      });
-    } else {
-      setPenisStyle({
-        bottom: `${bottomPenis}px`,
-        left: `${leftPenis}px`,
-        transform: `rotate(0deg)`,
-      });
-    }
-  }, [bottomPenis, leftPenis]);
-  useEffect(() => {
-    pause && clearInterval(setNewPosition);
+    pause && clearInterval(interval);
     if (!firstClick && !pause) {
-      setNewPosition = setInterval(() => {
-        setLeftContainer((act) => act - 10);
-        setBottomPenis((act) => act - 15);
+      interval = setInterval(() => {
+        containerLeftRef.current = containerLeftRef.current - 10;
+        bottomPenisRef.current = bottomPenisRef.current - 15;
+        setSpringPropsContainer({
+          left: `${containerLeftRef.current}px`,
+        });
+        setSpringPropsPenis({
+          bottom: `${bottomPenisRef.current}px`,
+        });
       }, 50);
     }
-  }, [pause]);
+  }, [pause, firstClick]);
+
+  useEffect(() => {
+    setInterval(() => {
+      setObstacleProps({
+        containerLeft: containerLeftRef.current,
+        bottomPenis: bottomPenisRef.current,
+      });
+    }, 1000);
+  }, []);
 
   return (
     <div className={cls.mainContainer}>
       {!firstClick && <ButtonMenu />}
-      <div
+
+      <animated.div
         className={cls.container}
-        style={{ left: `${leftContainer}px` }}
+        style={{ ...springPropsContainer }}
         onClick={onClickContainer}>
-        <img
+        <animated.img
           className={`${cls.penisImage}`}
           alt="Penis"
           src={getPenisImage(choosePenis)}
-          style={penisStyle}
+          style={{ ...springPropsPenis }}
         />
         {!firstClick && <Lottie animationData={LegAnimation} className={cls.legImg} loop={false} />}
         {firstClick && (
@@ -117,11 +136,16 @@ const Game = () => {
           </>
         )}
         <Obstacles
-          containerLeft={leftContainer}
-          bottomPenis={bottomPenis}
-          setBottomPenis={() => setBottomPenis(0)}
+          containerLeft={obstacleProps.containerLeft}
+          bottomPenis={obstacleProps.bottomPenis}
+          setBottomPenis={() => {
+            bottomPenisRef.current = 0;
+            setSpringPropsPenis({
+              bottom: `${bottomPenisRef.current}px`,
+            });
+          }}
         />
-      </div>
+      </animated.div>
     </div>
   );
 };

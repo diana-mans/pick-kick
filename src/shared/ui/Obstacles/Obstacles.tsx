@@ -28,6 +28,7 @@ type obstacleType = {
   bottom: number;
   height: number;
   width: number;
+  additionalLeft: number;
 };
 const arr: obstacleType[] = [
   {
@@ -36,7 +37,8 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 350,
     height: 341,
-    width: 207,
+    width: 177,
+    additionalLeft: 30,
   },
   {
     name: 'boss',
@@ -45,6 +47,7 @@ const arr: obstacleType[] = [
     bottom: 127,
     height: 334,
     width: 136,
+    additionalLeft: 0,
   },
   {
     name: 'poster',
@@ -53,6 +56,7 @@ const arr: obstacleType[] = [
     bottom: 485,
     height: 285,
     width: 173,
+    additionalLeft: 0,
   },
   {
     name: 'colleague',
@@ -61,6 +65,7 @@ const arr: obstacleType[] = [
     bottom: 170,
     height: 323,
     width: 210,
+    additionalLeft: 0,
   },
   {
     name: 'fishTwo',
@@ -69,6 +74,7 @@ const arr: obstacleType[] = [
     bottom: 250,
     height: 125,
     width: 165,
+    additionalLeft: 0,
   },
   {
     name: 'chair',
@@ -76,7 +82,8 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 320,
     height: 321,
-    width: 245,
+    width: 180,
+    additionalLeft: 30,
   },
   {
     name: 'pouf',
@@ -85,6 +92,7 @@ const arr: obstacleType[] = [
     bottom: 115,
     height: 333,
     width: 311,
+    additionalLeft: 0,
   },
   {
     name: 'condition',
@@ -93,6 +101,7 @@ const arr: obstacleType[] = [
     bottom: 645,
     height: 141,
     width: 305,
+    additionalLeft: 0,
   },
   {
     name: 'fish',
@@ -101,6 +110,7 @@ const arr: obstacleType[] = [
     bottom: 160,
     height: 125,
     width: 165,
+    additionalLeft: 0,
   },
   {
     name: 'folder',
@@ -109,6 +119,7 @@ const arr: obstacleType[] = [
     bottom: 560,
     height: 269,
     width: 187,
+    additionalLeft: 0,
   },
   {
     name: 'colleagueTwo',
@@ -117,6 +128,7 @@ const arr: obstacleType[] = [
     bottom: 185,
     height: 341,
     width: 154,
+    additionalLeft: 0,
   },
   {
     name: 'lamp',
@@ -124,7 +136,8 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 545,
     height: 275,
-    width: 223,
+    width: 193,
+    additionalLeft: 30,
   },
   {
     name: 'fishThree',
@@ -133,6 +146,7 @@ const arr: obstacleType[] = [
     bottom: 155,
     height: 125,
     width: 165,
+    additionalLeft: 0,
   },
   {
     name: 'cooler',
@@ -141,6 +155,7 @@ const arr: obstacleType[] = [
     bottom: 335,
     height: 329,
     width: 123,
+    additionalLeft: 0,
   },
 ];
 
@@ -191,10 +206,13 @@ const Obstacles = (props: {
 
   useEffect(() => {
     arr.map((el) => {
-      const passed = Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count === 0;
+      const passed =
+        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count > -105 &&
+        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count < 105;
       const betweenHorizontalArr =
         Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count < 0 &&
-        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count > -el.width;
+        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count >
+          -el.width + el.additionalLeft;
       const betweenVerticalArr =
         props.bottomPenis > el.bottom - 45 && props.bottomPenis < el.bottom + el.height;
       const isCollide = betweenHorizontalArr && betweenVerticalArr;
