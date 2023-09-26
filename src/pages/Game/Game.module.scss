@@ -1,0 +1,45 @@
+.mainContainer {
+  height: 100svh;
+  width: 100vw;
+  overflow: hidden;
+
+  --bg-width: 10370px;
+}
+
+.container {
+  background-image: url('../../shared/assets/images/bg-game.svg');
+  background-color: rgba(180, 227, 255, 1);
+  height: 100%;
+  width: 100000px;
+  background-repeat: repeat-x;
+  background-position: center left;
+  background-size: var(--bg-width);
+  position: relative;
+  transition: left 150ms linear;
+
+  .legImg {
+    height: 370px;
+    position: absolute;
+    bottom: 230px;
+    left: -60px;
+  }
+  .penisImage {
+    position: fixed;
+    height: 95px;
+    width: 47.5px;
+    transition: all 200ms linear;
+    z-index: 2;
+  }
+  .cursorImage {
+    position: absolute;
+    bottom: 130px;
+    left: calc(50vw - 32px);
+    width: 56px;
+    height: 95px;
+  }
+  p {
+    position: absolute;
+    bottom: 40px;
+    left: calc(50vw - 100px);
+  }
+}

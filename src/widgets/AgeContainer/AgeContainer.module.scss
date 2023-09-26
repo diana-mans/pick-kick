@@ -1,0 +1,32 @@
+.container {
+  margin: 0 auto;
+  width: 260px;
+  height: 350px;
+  position: relative;
+  top: calc(50svh - 170px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  p {
+    margin-bottom: 25px;
+    margin-top: 25px;
+  }
+
+  button {
+    margin-bottom: 10px;
+    height: 66px;
+    padding-right: 10px;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: rgba(103, 176, 219, 1);
+    }
+
+    img {
+      position: relative;
+      top: 5px;
+      left: 10px;
+    }
+  }
+}

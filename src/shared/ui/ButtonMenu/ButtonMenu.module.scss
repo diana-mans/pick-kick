@@ -1,0 +1,71 @@
+.menuContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 0 18px;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 35px;
+  z-index: 4;
+
+  .buttonContainer {
+    display: flex;
+    width: 180px;
+    justify-content: space-between;
+  }
+  .button {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+
+    img {
+      position: relative;
+    }
+
+    .arrowIcon {
+      width: 18px;
+      top: 14px;
+    }
+
+    .soundIcon {
+      width: 25px;
+      top: 12px;
+    }
+
+    .pauseIcon {
+      width: 12px;
+      top: 16px;
+    }
+    .playIcon {
+      top: 12px;
+    }
+  }
+  .button:hover {
+    background-color: rgba(180, 227, 255, 1);
+  }
+  .counter {
+    width: 120px;
+    height: 50px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: nowrap;
+
+    img {
+      width: 35px;
+      margin-left: 10px;
+    }
+    div {
+      font-size: 33px;
+      margin-top: 7px;
+      margin-left: 5px;
+      flex-grow: 0.5;
+    }
+  }
+}

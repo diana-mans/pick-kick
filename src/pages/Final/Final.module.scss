@@ -1,0 +1,65 @@
+.container {
+  background-color: rgba(180, 227, 255, 1);
+  width: 100vw;
+  height: 100svh;
+
+  .contentContainer {
+    background-color: rgba(255, 255, 255, 1);
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 75%;
+    height: 580px;
+    margin: 0 auto;
+    position: relative;
+    top: calc(50svh - 648px / 2);
+    padding: 30px 30px;
+    .counter {
+      position: relative;
+      margin: 0 auto;
+      margin-top: 30px;
+      width: 123px;
+      height: 53px;
+      background-color: white;
+      border: 2px solid black;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      flex-wrap: nowrap;
+
+      img {
+        width: 35px;
+        margin-left: 10px;
+      }
+      div {
+        font-size: 33px;
+        margin-top: 8px;
+        margin-left: 5px;
+        flex-grow: 0.5;
+      }
+    }
+    h1 {
+      font-size: 30px;
+      line-height: 33.6px;
+      margin-top: 20px;
+      margin-bottom: 27px;
+    }
+
+    .onboard {
+      font-size: 18px;
+      line-height: 20.16px;
+    }
+    .buttonContainer {
+      margin-top: 30px;
+      button {
+        width: 97%;
+        margin-bottom: 15px;
+        padding: 20px 0px;
+        font-size: 20px;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(103, 176, 219, 1);
+        }
+      }
+    }
+  }
+}

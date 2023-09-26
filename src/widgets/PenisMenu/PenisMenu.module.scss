@@ -1,0 +1,32 @@
+.container {
+  position: relative;
+  margin: 0 auto;
+  top: calc(50svh - 100px);
+  h2 {
+    margin-bottom: 45px;
+  }
+  .items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 350px;
+    margin: 0 auto;
+    .penisItem {
+      width: 75px;
+      height: 115px;
+      border: 2px solid black;
+      border-radius: 10px;
+      background-color: white;
+
+      img {
+        height: 85px;
+        position: relative;
+        top: 15px;
+      }
+    }
+    .penisItem:hover {
+      background-color: rgba(134, 210, 255, 1);
+    }
+  }
+}

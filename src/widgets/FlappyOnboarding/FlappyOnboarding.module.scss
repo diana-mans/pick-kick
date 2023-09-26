@@ -1,0 +1,26 @@
+.container {
+  margin: 0 auto;
+  width: 360px;
+  position: relative;
+  top: calc(50svh - 200px);
+  p {
+    padding: 0 20px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  img {
+    width: 20px;
+    height: 40px;
+    transform: rotate(55deg);
+    position: relative;
+    top: -80px;
+    left: 265px;
+  }
+  button {
+    width: 335px;
+    height: 66px;
+    &:hover {
+      background-color: rgba(103, 176, 219, 1);
+    }
+  }
+}
