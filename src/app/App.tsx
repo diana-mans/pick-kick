@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Onboarding from '../pages/Onboarding/Onboarding';
 import './styles/index.scss';
 import Game from '../pages/Game/Game';
@@ -14,11 +14,10 @@ import { isLoad } from '../shared/ui/Api/getFunc';
 
 function App() {
   const { isVisiblePopup, isSound } = useSelector((state: RootState) => state.game);
-  const onbPage = useSelector((state: RootState) => state.onbPage.currentPage);
-  let location = useLocation();
   const sound = useMemo(() => {
     return new Howl({
       src: [bgMusic],
+      loop: true,
     });
   }, []);
 
@@ -31,7 +30,10 @@ function App() {
     } else {
       sound.pause();
     }
-  }, [onbPage, isSound]);
+    return () => {
+      sound.pause();
+    };
+  }, [isSound]);
 
   window.addEventListener('load', isLoad);
 

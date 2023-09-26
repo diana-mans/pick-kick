@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@types/howler": "^2.2.9",
+    "netlify-cli": "^16.4.2",
     "sass": "^1.68.0"
   }
 }

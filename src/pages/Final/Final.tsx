@@ -6,12 +6,13 @@ import { OnbPages, setOnboardingPage } from '../../shared/redux/onbPageSlice';
 import { useNavigate } from 'react-router-dom';
 import { resetCount } from '../../shared/redux/gameSlice';
 import buttonSound from '../../shared/assets/sound/button.aac';
+const clickSound = new Audio(buttonSound);
 
 const Final = () => {
   const count = useSelector((state: RootState) => state.game.count);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const clickSound = new Audio(buttonSound);
+
   return (
     <div className={cls.container}>
       <div className={cls.contentContainer}>

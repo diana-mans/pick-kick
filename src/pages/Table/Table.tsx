@@ -8,11 +8,12 @@ import buttonSound from '../../shared/assets/sound/button.aac';
 import scrollBar from '../../shared/assets/images/scrollbar.svg';
 import penisIcon from '../../shared/assets/images/penis-classic.svg';
 import { Scrollbar } from '../../shared/ui/Scrollbar/Scrollbar';
+const clickSound = new Audio(buttonSound);
 
 const Table = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const clickSound = new Audio(buttonSound);
+
   const userList = [
     {
       id: 1,

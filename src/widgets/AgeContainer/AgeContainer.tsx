@@ -4,9 +4,11 @@ import { OnbPages, setOnboardingPage } from '../../shared/redux/onbPageSlice';
 import YesIcon from '../../shared/assets/images/yes.svg';
 import buttonSound from '../../shared/assets/sound/button.aac';
 
+const clickSound = new Audio(buttonSound);
+
 const AgeContainer = () => {
   const dispatch = useDispatch();
-  const clickSound = new Audio(buttonSound);
+
   return (
     <div className={cls.container}>
       <h2>

@@ -8,9 +8,11 @@ import { Penis, setPenis } from '../../shared/redux/chooseSlice';
 import { Link } from 'react-router-dom';
 import buttonSound from '../../shared/assets/sound/button.aac';
 
+const clickSound = new Audio(buttonSound);
+
 const PenisMenu = () => {
   const dispatch = useDispatch();
-  const clickSound = new Audio(buttonSound);
+
   const onClickPenis = (item: Penis) => {
     dispatch(setPenis(item));
     clickSound.play();

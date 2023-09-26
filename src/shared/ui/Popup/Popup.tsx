@@ -1,14 +1,18 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cls from './Popup.module.scss';
-import { setIsVisiblePopup, togglePause } from '../../redux/gameSlice';
+import { setIsVisiblePopup, setPause } from '../../redux/gameSlice';
 import buttonSound from '../../assets/sound/button.aac';
+import { gameOver } from '../Api/getFunc';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 
 const Popup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const clickSound = new Audio(buttonSound);
+  const count = useSelector((state: RootState) => state.game.count);
   const speechArr = [
     'М-м-м, у тебя такой большой игровой потенциал!',
-    'Не останавливайся!',
     'Скажи, что я крепкий, как хозяйственник!',
     'Давай, запинай меня глубже!',
     'Я чувствую, как ты горяч, даже через экран!',
@@ -26,7 +30,9 @@ const Popup = () => {
         onClick={() => {
           clickSound.play();
           dispatch(setIsVisiblePopup(false));
-          dispatch(togglePause());
+          navigate('/final');
+          gameOver(count);
+          dispatch(setPause(false));
         }}>
         Продолжить
       </button>

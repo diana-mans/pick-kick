@@ -12,7 +12,6 @@ import ClickAnimation from '../../shared/assets/images/click-anim.json';
 import LegAnimation from '../../shared/assets/images/leg-anim.json';
 import ButtonMenu from '../../shared/ui/ButtonMenu/ButtonMenu';
 import Obstacles from '../../shared/ui/Obstacles/Obstacles';
-import { setIsVisiblePopup, togglePause } from '../../shared/redux/gameSlice';
 import flappySound from '../../shared/assets/sound/flappy.aac';
 
 type PenisStyleType = {
@@ -29,7 +28,6 @@ const Game = () => {
   const [bottomPenis, setBottomPenis] = useState(282);
   const [leftPenis, setLeftPenis] = useState(84);
   const [penisStyle, setPenisStyle] = useState<PenisStyleType>();
-  const dispatch = useDispatch();
   const soundFlappy = new Audio(flappySound);
 
   const { pause, count } = useSelector((state: RootState) => state.game);
@@ -92,13 +90,6 @@ const Game = () => {
     }
   }, [pause]);
 
-  useEffect(() => {
-    const divisionRez = count / 5;
-    if ((divisionRez + 1) % 2 === 0 || divisionRez === 1) {
-      dispatch(togglePause());
-      dispatch(setIsVisiblePopup(true));
-    }
-  }, [count]);
   return (
     <div className={cls.mainContainer}>
       {!firstClick && <ButtonMenu />}
@@ -125,7 +116,11 @@ const Game = () => {
             </p>
           </>
         )}
-        <Obstacles containerLeft={leftContainer} bottomPenis={bottomPenis} />
+        <Obstacles
+          containerLeft={leftContainer}
+          bottomPenis={bottomPenis}
+          setBottomPenis={() => setBottomPenis(0)}
+        />
       </div>
     </div>
   );

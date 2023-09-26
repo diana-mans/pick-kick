@@ -14,13 +14,12 @@ import poufImage from '../../assets/images/pouf.svg';
 import conditionImage from '../../assets/images/condition.svg';
 import lampImage from '../../assets/images/lamp.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementCount } from '../../redux/gameSlice';
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { incrementCount, setIsVisiblePopup, setPause } from '../../redux/gameSlice';
+import { useEffect } from 'react';
 import { RootState } from '../../redux/store';
 import moneySound from '../../assets/sound/money.aac';
 import failSound from '../../assets/sound/fail.aac';
-import { gameOver } from '../Api/getFunc';
+import { Howl } from 'howler';
 
 type obstacleType = {
   name: string;
@@ -144,17 +143,27 @@ const arr: obstacleType[] = [
     width: 123,
   },
 ];
-const Obstacles = (props: { containerLeft: number; bottomPenis: number }) => {
+
+const sound = new Howl({
+  src: [failSound],
+});
+const soundMoney = new Howl({
+  src: [moneySound],
+});
+
+const Obstacles = (props: {
+  containerLeft: number;
+  bottomPenis: number;
+  setBottomPenis: () => void;
+}) => {
   const count = useSelector((state: RootState) => state.game.count);
-  const sound = new Audio(failSound);
-  const soundMoney = new Audio(moneySound);
+
   if (count === 0) {
     for (let i = 0; i < 14; i++) {
       arr[i].count = 0;
     }
   }
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const getLeft = (idx: number) => {
     const isMove =
       Math.abs(props.containerLeft) - arr[idx].initialLeft - 10370 * arr[idx].count > 1000;
@@ -190,12 +199,16 @@ const Obstacles = (props: { containerLeft: number; bottomPenis: number }) => {
         props.bottomPenis > el.bottom - 45 && props.bottomPenis < el.bottom + el.height;
       const isCollide = betweenHorizontalArr && betweenVerticalArr;
       const isFall = props.bottomPenis < -20;
+      if (isCollide) {
+        props.setBottomPenis();
+        dispatch(setPause(true));
+      }
       if (isCollide || isFall) {
         sound.play();
         setTimeout(() => {
-          gameOver(count);
-          navigate('/final');
-        }, 200);
+          dispatch(setPause(true));
+          dispatch(setIsVisiblePopup(true));
+        }, 300);
       }
       if (passed) {
         dispatch(incrementCount());

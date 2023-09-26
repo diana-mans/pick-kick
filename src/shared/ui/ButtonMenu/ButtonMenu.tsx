@@ -2,6 +2,7 @@ import cls from './ButtonMenu.module.scss';
 import pauseIcon from '../../assets/images/pause.svg';
 import playIcon from '../../assets/images/play.svg';
 import soundIcon from '../../assets/images/sound.svg';
+import soundOffIcon from '../../assets/images/soundOff.svg';
 import arrowIcon from '../../assets/images/strelka.svg';
 import moneyIcon from '../../assets/images/money.svg';
 import { Link } from 'react-router-dom';
@@ -13,7 +14,7 @@ import buttonSound from '../../assets/sound/button.aac';
 
 const ButtonMenu = () => {
   const dispatch = useDispatch();
-  const { pause, count } = useSelector((state: RootState) => state.game);
+  const { pause, count, isSound } = useSelector((state: RootState) => state.game);
   const clickSound = new Audio(buttonSound);
   return (
     <div className={cls.menuContainer}>
@@ -35,7 +36,11 @@ const ButtonMenu = () => {
             dispatch(toggleSound());
             clickSound.play();
           }}>
-          <img alt="Toggle sound" src={soundIcon} className={cls.soundIcon} />
+          <img
+            alt="Toggle sound"
+            src={isSound ? soundIcon : soundOffIcon}
+            className={cls.soundIcon}
+          />
         </div>
         <div
           className={cls.button}
