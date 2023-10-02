@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import cls from './FlappyOnboarding.module.scss';
 import { OnbPages, setOnboardingPage } from '../../shared/redux/onbPageSlice';
-import PenisImage from '../../shared/assets/images/penis-classic.svg';
+import BallImage from '../../shared/assets/images/penis-classic.svg';
 import buttonSound from '../../shared/assets/sound/button.aac';
 
 const FlappyOnboarding = () => {
@@ -15,7 +15,7 @@ const FlappyOnboarding = () => {
         х*и! <br /> <br />
         Отвлекись от&nbsp;всех тупых дел типа работы. <br />И разомни ноги об&nbsp;упругий
       </p>
-      <img alt="Penis" src={PenisImage} />
+      <img alt="Ball" src={BallImage} />
       <button
         onClick={() => {
           dispatch(setOnboardingPage(OnbPages.MENU));

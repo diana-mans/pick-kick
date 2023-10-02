@@ -1,4 +1,5 @@
 @import url('./reset.scss');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@700&display=swap');
 
 @font-face {
   font-family: 'PT Mono';
@@ -36,12 +37,18 @@
     font-weight: 400;
   }
   button {
+    font-family: 'Ubuntu Mono';
     text-transform: uppercase;
     font-size: 25px;
+    line-height: 25px;
+    text-align: center;
     font-weight: 700;
     border: 2px solid black;
     background-color: rgba(255, 255, 255, 1);
     border-radius: 10px;
     color: black;
+    width: 265px;
+    height: 61px;
+    box-sizing: border-box;
   }
 }

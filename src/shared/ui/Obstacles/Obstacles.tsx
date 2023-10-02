@@ -29,16 +29,18 @@ type obstacleType = {
   height: number;
   width: number;
   additionalLeft: number;
+  passedCount: number;
 };
 const arr: obstacleType[] = [
   {
     name: 'window',
     initialLeft: 830,
     count: 0,
-    bottom: 350,
-    height: 341,
-    width: 177,
-    additionalLeft: 30,
+    bottom: 380,
+    height: 311,
+    width: 187,
+    additionalLeft: 60,
+    passedCount: 0,
   },
   {
     name: 'boss',
@@ -46,17 +48,19 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 127,
     height: 334,
-    width: 136,
-    additionalLeft: 0,
+    width: 106,
+    additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'poster',
     initialLeft: 2030,
     count: 0,
-    bottom: 485,
-    height: 285,
+    bottom: 495,
+    height: 275,
     width: 173,
-    additionalLeft: 0,
+    additionalLeft: 20,
+    passedCount: 0,
   },
   {
     name: 'colleague',
@@ -64,8 +68,9 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 170,
     height: 323,
-    width: 210,
-    additionalLeft: 0,
+    width: 160,
+    additionalLeft: 50,
+    passedCount: 0,
   },
   {
     name: 'fishTwo',
@@ -73,8 +78,9 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 250,
     height: 125,
-    width: 165,
-    additionalLeft: 0,
+    width: 135,
+    additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'chair',
@@ -84,6 +90,7 @@ const arr: obstacleType[] = [
     height: 321,
     width: 180,
     additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'pouf',
@@ -91,8 +98,9 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 115,
     height: 333,
-    width: 311,
-    additionalLeft: 0,
+    width: 241,
+    additionalLeft: 70,
+    passedCount: 0,
   },
   {
     name: 'condition',
@@ -102,6 +110,7 @@ const arr: obstacleType[] = [
     height: 141,
     width: 305,
     additionalLeft: 0,
+    passedCount: 0,
   },
   {
     name: 'fish',
@@ -109,8 +118,9 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 160,
     height: 125,
-    width: 165,
-    additionalLeft: 0,
+    width: 135,
+    additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'folder',
@@ -119,7 +129,8 @@ const arr: obstacleType[] = [
     bottom: 560,
     height: 269,
     width: 187,
-    additionalLeft: 0,
+    additionalLeft: 20,
+    passedCount: 0,
   },
   {
     name: 'colleagueTwo',
@@ -129,6 +140,7 @@ const arr: obstacleType[] = [
     height: 341,
     width: 154,
     additionalLeft: 0,
+    passedCount: 0,
   },
   {
     name: 'lamp',
@@ -138,6 +150,7 @@ const arr: obstacleType[] = [
     height: 275,
     width: 193,
     additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'fishThree',
@@ -145,8 +158,9 @@ const arr: obstacleType[] = [
     count: 0,
     bottom: 155,
     height: 125,
-    width: 165,
-    additionalLeft: 0,
+    width: 135,
+    additionalLeft: 30,
+    passedCount: 0,
   },
   {
     name: 'cooler',
@@ -156,6 +170,7 @@ const arr: obstacleType[] = [
     height: 329,
     width: 123,
     additionalLeft: 0,
+    passedCount: 0,
   },
 ];
 
@@ -168,14 +183,15 @@ const soundMoney = new Howl({
 
 const Obstacles = (props: {
   containerLeft: number;
-  bottomPenis: number;
-  setBottomPenis: () => void;
+  bottomBall: number;
+  setBottomBall: () => void;
 }) => {
   const count = useSelector((state: RootState) => state.game.count);
 
   if (count === 0) {
     for (let i = 0; i < 14; i++) {
       arr[i].count = 0;
+      arr[i].passedCount = 0;
     }
   }
   const dispatch = useDispatch();
@@ -205,30 +221,31 @@ const Obstacles = (props: {
   };
 
   useEffect(() => {
-    arr.map((el) => {
+    arr.map((el, idx) => {
       const passed =
-        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count > -105 &&
-        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count < 105;
+        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count > -100 &&
+        Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count < 100;
       const betweenHorizontalArr =
         Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count < 0 &&
         Math.abs(props.containerLeft) - el.initialLeft - 10370 * el.count >
           -el.width + el.additionalLeft;
       const betweenVerticalArr =
-        props.bottomPenis > el.bottom - 45 && props.bottomPenis < el.bottom + el.height;
+        props.bottomBall > el.bottom - 45 && props.bottomBall < el.bottom + el.height;
       const isCollide = betweenHorizontalArr && betweenVerticalArr;
-      const isFall = props.bottomPenis < -20;
-      if (isCollide) {
-        props.setBottomPenis();
-        dispatch(setPause(true));
+      const isFall = props.bottomBall < -20;
+      const isTop = props.bottomBall > window.innerHeight + 10 && betweenHorizontalArr;
+      if (isCollide || isTop) {
+        props.setBottomBall();
       }
-      if (isCollide || isFall) {
+      if (isCollide || isFall || isTop) {
+        dispatch(setPause(true));
         sound.play();
         setTimeout(() => {
-          dispatch(setPause(true));
           dispatch(setIsVisiblePopup(true));
         }, 300);
       }
-      if (passed) {
+      if (passed && el.passedCount === el.count) {
+        arr[idx].passedCount = arr[idx].passedCount + 1;
         dispatch(incrementCount());
         soundMoney.play();
       }

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export enum Penis {
+export enum Ball {
   ClASSIC = 'classic',
   RIBBED = 'ribbed',
   EYE = 'eye',
@@ -8,23 +8,23 @@ export enum Penis {
 }
 
 interface stateType {
-  choosePenis: Penis;
+  chooseBall: Ball;
 }
 
 const initialState: stateType = {
-  choosePenis: Penis.ClASSIC,
+  chooseBall: Ball.ClASSIC,
 };
 
 export const choose = createSlice({
   name: 'choose',
   initialState,
   reducers: {
-    setPenis(state, action: PayloadAction<Penis>) {
-      state.choosePenis = action.payload;
+    setBall(state, action: PayloadAction<Ball>) {
+      state.chooseBall = action.payload;
     },
   },
 });
 
-export const { setPenis } = choose.actions;
+export const { setBall } = choose.actions;
 
 export default choose.reducer;

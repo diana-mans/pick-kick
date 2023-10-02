@@ -40,13 +40,12 @@
           background-color: white;
           border: 2px solid black;
           border-radius: 10px;
-          cursor: pointer;
           display: flex;
           flex-wrap: nowrap;
+          justify-content: center;
 
           img {
             width: 22px;
-            margin-left: 5px;
           }
           div {
             font-size: 18px;
@@ -57,9 +56,7 @@
       }
     }
     button {
-      width: 90%;
       margin-top: 15px;
-      padding: 20px 0px;
       font-size: 20px;
       position: relative;
       left: -15px;
@@ -74,7 +71,7 @@
       height: 450px;
       top: calc(50svh - 275px);
     }
-    .penisIcon {
+    .BallIcon {
       position: absolute;
       width: 21px;
       height: 42px;

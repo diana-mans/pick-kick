@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import cls from './Popup.module.scss';
 import { setIsVisiblePopup, setPause } from '../../redux/gameSlice';
 import buttonSound from '../../assets/sound/button.aac';
-import { gameOver } from '../Api/getFunc';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import { setUserScore } from '../Api/getFunc';
 
 const Popup = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Popup = () => {
           clickSound.play();
           dispatch(setIsVisiblePopup(false));
           navigate('/final');
-          gameOver(count);
+          setUserScore(count);
           dispatch(setPause(false));
         }}>
         Продолжить

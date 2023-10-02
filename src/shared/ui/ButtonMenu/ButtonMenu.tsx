@@ -11,31 +11,58 @@ import { OnbPages, setOnboardingPage } from '../../redux/onbPageSlice';
 import { resetCount, setPause, togglePause, toggleSound } from '../../redux/gameSlice';
 import { RootState } from '../../redux/store';
 import buttonSound from '../../assets/sound/button.aac';
+import { useEffect, useState } from 'react';
 
 const ButtonMenu = () => {
   const dispatch = useDispatch();
-  const { pause, count, isSound } = useSelector((state: RootState) => state.game);
+  const [isCoarse, setIsCoarse] = useState(false);
+  const { pause, count, isSound, isVisiblePopup } = useSelector((state: RootState) => state.game);
   const clickSound = new Audio(buttonSound);
+
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      setIsCoarse(true);
+    }
+  }, []);
+
+  const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    e.currentTarget.classList.add('active');
+  };
+
+  const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    e.currentTarget.classList.remove('active');
+  };
+
   return (
     <div className={cls.menuContainer}>
       <div className={cls.buttonContainer}>
-        <Link to="/">
+        <Link to="/" className={isVisiblePopup ? cls.disabledLink : cls.link}>
           <div
-            className={cls.button}
+            className={`${cls.button} ${isCoarse ? '' : cls.hoverable}`}
+            onTouchStart={isCoarse ? handleTouchStart : undefined}
+            onTouchEnd={isCoarse ? handleTouchEnd : undefined}
             onClick={() => {
-              dispatch(setOnboardingPage(OnbPages.FlAPPY));
-              dispatch(setPause(false));
-              dispatch(resetCount());
-              clickSound.play();
+              if (!isVisiblePopup) {
+                dispatch(setOnboardingPage(OnbPages.FlAPPY));
+                dispatch(setPause(false));
+                dispatch(resetCount());
+                clickSound.play();
+              }
             }}>
             <img alt="Come back" src={arrowIcon} className={cls.arrowIcon} />
           </div>
         </Link>
         <div
-          className={cls.button}
+          className={`${cls.button} ${isCoarse ? '' : cls.hoverable} ${
+            isVisiblePopup && cls.disabledButton
+          }`}
+          onTouchStart={isCoarse ? handleTouchStart : undefined}
+          onTouchEnd={isCoarse ? handleTouchEnd : undefined}
           onClick={() => {
-            dispatch(toggleSound());
-            clickSound.play();
+            if (!isVisiblePopup) {
+              dispatch(toggleSound());
+              clickSound.play();
+            }
           }}>
           <img
             alt="Toggle sound"
@@ -44,10 +71,16 @@ const ButtonMenu = () => {
           />
         </div>
         <div
-          className={cls.button}
+          className={`${cls.button} ${isCoarse ? '' : cls.hoverable} ${
+            isVisiblePopup && cls.disabledButton
+          }`}
+          onTouchStart={isCoarse ? handleTouchStart : undefined}
+          onTouchEnd={isCoarse ? handleTouchEnd : undefined}
           onClick={() => {
-            dispatch(togglePause());
-            clickSound.play();
+            if (!isVisiblePopup) {
+              dispatch(togglePause());
+              clickSound.play();
+            }
           }}>
           {pause ? (
             <img alt="Play" src={playIcon} className={cls.playIcon} />

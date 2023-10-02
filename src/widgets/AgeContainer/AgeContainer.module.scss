@@ -13,11 +13,11 @@
     margin-top: 25px;
   }
 
-  button {
-    margin-bottom: 10px;
+  .button {
     height: 66px;
-    padding-right: 10px;
-    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
       background-color: rgba(103, 176, 219, 1);
@@ -25,8 +25,7 @@
 
     img {
       position: relative;
-      top: 5px;
-      left: 10px;
+      margin-left: 10px;
     }
   }
 }

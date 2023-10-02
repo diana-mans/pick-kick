@@ -12,7 +12,7 @@
     justify-content: space-between;
     width: 350px;
     margin: 0 auto;
-    .penisItem {
+    .BallItem {
       width: 75px;
       height: 115px;
       border: 2px solid black;
@@ -25,7 +25,7 @@
         top: 15px;
       }
     }
-    .penisItem:hover {
+    .BallItem:hover {
       background-color: rgba(134, 210, 255, 1);
     }
   }

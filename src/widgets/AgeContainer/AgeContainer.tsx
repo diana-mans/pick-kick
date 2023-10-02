@@ -16,11 +16,12 @@ const AgeContainer = () => {
       </h2>
       <p>Нажми на кнопку «Мне есть 18», чтобы начать!</p>
       <button
+        className={cls.button}
         onClick={() => {
           dispatch(setOnboardingPage(OnbPages.FlAPPY));
           clickSound.play();
         }}>
-        Мне есть 18
+        <div>Мне есть 18</div>
         <img alt="Yes" src={YesIcon} />
       </button>
     </div>
